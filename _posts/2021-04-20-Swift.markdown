@@ -5,8 +5,6 @@ categories: [Swift]
 tags: [swift]
 ---
 
-# Swift
-
 **Note: Much of this is just a semi-clever regurgitation rephrasing [Hacking With Swift](https://www.hackingwithswift.com) articles in ways that make more sense to me. It is likely that while you are free to use this as a resource Hacking With Swift might make more sense, it's also just really well made.**
 
 ## Definitions
