@@ -1,0 +1,515 @@
+---
+title:  "Swift"
+date:   2021-04-20 00:00:00 -0500
+categories: [Swift]
+tags: [swift]
+---
+
+# Swift
+
+**Note: Much of this is just a semi-clever regurgitation rephrasing [Hacking With Swift](https://www.hackingwithswift.com) articles in ways that make more sense to me. It is likely that while you are free to use this as a resource Hacking With Swift might make more sense, it's also just really well made.**
+
+## Definitions
+- Type-safe
+	- you can't mix types like Strings or Booleans
+- Delegate
+	- a class that does something on behalf of another class
+
+# App Structure
+
+## SwiftUI
+
+## UIKit
+
+## AppDelegate.swift
+
+Intended to handle application lifecycle events, responds to the app being launched, backgrounded, foregrounded, receiving data, etc.
+
+## SceneDelegate.swift
+
+# Simple Types
+
+The `?` after data types indicates that a variable is optional, this just allows the variable's value to be `nil`
+
+## Variables
+Variables are totally normal, they can be **Strings**, **Integers**, **Doubles** (also known as floats), **Booleans**.
+### Definition
+``` swift
+var variable_name = value 
+```
+This gives the variable `variable_name` the value of `value`
+
+You can also define variables with explicit types using **annotations**.
+```swift
+var variable_name: String = "value"
+```
+This defines the variable `variable_name` as a string with a value that spells out...value. This is generally not necessary as swift is able to infer an implicit type on first declaration.
+
+### Strings
+Variables that are strings hold plain text.
+
+#### String Interpolation
+String interpolation allows us to insert values from other **variables** or **constants** into a string like so:
+```swift
+var age = 42
+var jeffAge = "Jeff's age is \(age)" 
+```
+Printing `jeffAge` would return "Jeff's age is 42"
+
+#### Multi-Line Strings
+If you want to include line breaks in your strings you will need to define them as such:
+```swift
+var variable_name = """
+This
+is my
+string
+"""
+```
+
+### Integers and Doubles
+Integers define whole numbers like 5, 17, and 8,000,001 while doubles define decimal numbers like 5.2, .69, or 3.14
+
+Integers are defined like any other variable
+```swift
+var age: Int = 42
+var preciseAge: Double = 42.39
+```
+
+Underscores can also be used as thousands separators, they don't actually appear when used however they make the number easier to read
+
+**Integers and Doubles do not mix** so don't try to set an integer to a double or vice versa
+
+```swift
+var bigNumber = 8_000_000
+```
+This would still just print `8000000`
+
+### Booleans
+Booleans are true or false values...that's it
+```swift
+var myBoolean: Bool = true
+```
+
+## Constants
+Constants are similar to variables except that constants do not change while variables can
+
+### Definition
+Constants are defined just like variables except instead of `var` you use `let`
+```swift
+let myConstant = "Look at me I'm a constant!"
+let anotherConstant = 67
+```
+
+# Complex Types
+## Arrays
+Arrays are groupings of the same kind of value that are stored as a single value but you can read all the individual values out of it, that was a terrible explanation but it'll make more sense if you look below
+### Definition
+Arrays are defined similarly to variables or constants, in fact you can use either keyword which will make the array variable or constant, however they define their values in square brackets separated by commas
+```swift
+var scale = ["do", "re", "mi", "fa", "so", "la", "ti"]
+```
+
+If you wanted to access one of the values in the array you would just refer to it as `scale[0]`, this would return "do", `scale[1]` would return "re" and `scale[2]` would return "mi"
+
+### Annotations on Arrays
+If you want to define an array with an explicit type you can just place the annotations in brackets such as `[String]` or `[Bool]`
+```swift
+let scale: [String] = ["do", "re", "mi", "fa", "so", "la", "ti"]  
+```
+
+## Sets
+
+Sets are very much like Arrays except: 
+- Items are not stored in any order and thus will not necessarily appear in the order you define them
+- Duplicate items in a set are not allowed
+
+```swift
+var food = Set(["chicken", "pasta", "broccoli", "apple"])
+```
+Because values in a set are unordered they cannot be read from like an array
+
+## Tuples
+Again kinda like arrays, kinda like sets, but a little different
+- Once tuples are defined, values cannot be added or subtracted from them
+	- You also can't change the types of values in a tuple, once an item is a string it cannot be changed or redefined as an integer
+- Just like arrays you can access the data within a Tuple as the items are named
+```swift
+var person = (nameFirst: "Tim", nameLast: "Cook", company: "Apple")
+```
+
+Data from this tuple can be accessed like so:
+- `person.nameFirst` would return "Tim"
+- `person.0` would also return "Tim", just like an array
+
+## Dictionaries
+Dictionaries basically seem like better arrays tbh, or at least they are far more human readable
+```swift
+let dinner = ["protein": "chicken", "side": "pasta"]
+```
+The value before the colon is known as the **key**, this is used when reading data from a dictionary, so `dinner["protein"]` would return "chicken"
+
+Dictionaries can also be given default values when called so they don't return `nil` like so:
+```swift
+dinner["dessert", default: "none"] 
+```
+Because no item with the key "dessert" exists in the dictionary this query would return "none"
+
+### Annotations
+When using annotations in a dictionary the first value is the type of the key while the value after the colon is the type of the value
+
+In this case the above `dinner` dictionary could be annotated as such
+```swift
+let dinner: [String: String] = ["protein": "chicken", "side": "pasta"]
+```
+
+This just means that both the key and their values are strings
+
+# Operators and Conditions
+
+## Range Operators
+The `..<` operator and the `...` operator allow the return and specification of a range of values.
+
+`1 ..< 5` would include 1, 2, 3, and 4
+
+`1 ... 5` would include 1, 2, 3, 4, and 5
+
+# Loops
+
+## For Loops
+For loops loop through arrays and ranges, **each time the loop goes around it pulls out one item and assigns it to a constant**
+
+Let's say we have a range
+```swift
+let count = 1 ... 5
+```
+
+If we wanted to print out each number in that range we could use a for loop
+
+```swift
+for number in count {
+	print("Number is \(number)")
+}
+```
+
+This would print out:
+
+```swift
+Number is 1
+Number is 2
+Number is 3
+Number is 4
+Number is 5
+```
+
+**But how?** Where did `number` come from? Number gets temporarily created for use in the for loop. You could call `number` literally anything and it would still work provided you inserted it into the string correctly.
+
+```swift
+for goat in count {
+	print("Number is \(goat)")
+}
+```
+
+Still prints:
+
+```swift
+Number is 1
+Number is 2
+Number is 3
+Number is 4
+Number is 5
+```
+
+See? No magic
+
+We can also use for loops on arrays
+
+```swift
+let albums = ["Red", "1989", "Reputation"]
+
+for album in albums {
+	print("\(album) is on Apple Music")
+}
+```
+
+Again album is just a temporary value representing the used values in any given loop and could be replaced with something as stupid as `Duck`
+
+If you ever have the need to not use a temp value you can just use an `_` for simplicity.
+
+## While Loops
+While loops do something until their condition false, checking back every loop
+```swift
+while some condition is true {
+	print("hi")
+}
+```
+
+
+### Repeat Loops
+
+While loops but written differently, **the check happens after the execution so repeat loops will always happen at least once**
+
+```swift
+Repeat {
+	print("hi")
+} while some condition is true
+```
+
+# Structs
+
+Structs are just containers for views and what not, they can just have variables and stuff. They also allow you to use multiple values as a single value
+
+```swift
+struct struct_name {
+	Content
+}
+```
+
+Data from a struct can be accessed like so:
+```swift
+let constant = some_struct(var: "String")
+print(some_struct.var)
+```
+This would print `String`
+
+You can also set structs equal to each other without having to define the second struct
+```swift
+//some_struct
+
+var some_struct2 = some_struct
+
+some_struct2.var = "String"
+
+print(some_struct2.var)
+```
+
+## Functions in Structs
+
+A `func` defined in a struct is known as a method
+
+```swift
+struct Person {
+	var name: String //you can also set default values so that a declaration is not necessary
+	func describe() {
+		print("My name is \(name)")
+	}
+}
+
+let constant = Person(name: "Mike")
+
+constant.describe()
+```
+
+`constant.describe()` calls the method `describe()` and prints out "My name is Mike"
+
+# Classes
+
+Classes are similar to structs but its never that easy so this is how they are different:
+- There is no automatic memberwise initializer like there is with structs, you must define your own to use classes
+-  Classes can be based off other classes and additions can be made to the new class
+- Instances of classes are called objects, if an object is copied both objects point to the same data by default, changing one changes the copy as well
+
+## Declaration
+Because there is no automatic generation of initializers classes must be defined differently
+
+the lack of initializer can be solved in three ways
+- Make the contents optional - not very efficient or easy to read
+- Set default values - wasteful is those values aren't going to be used
+- Write a custom initializer - often the best option
+```swift
+class Person {
+	var name: String
+
+	init(name: String) {
+		self.name = name
+	}
+}
+```
+
+Let's talk about `self.name = name` the `self` is meant to add clarity but it looks weird at first. Essentially the `self.name` is in reference to the actually `var name`, it references the property of the object, the `name` to the right of the equals sign is in reference to the `name` value passed into the `init()` method
+
+Make sure to give all non-optional properties a value in the initializer as seen above
+
+## Class Inheritance
+
+```swift
+class Person {
+	var name: String
+
+	init(name: String) {
+		self.name = name
+	}
+
+	func greet() {
+		print("Hello")
+	}
+}
+
+var alfred = Person(name: "Alfred")
+```
+
+Printing `alfred.name` would return `"Alfred"`
+
+Calling `alfred.greet` would print `"Hello"`
+
+So now let's make another class based on `Person()`
+
+```swift
+class Person {
+	var name: String
+
+	init(name: String) {
+		self.name = name
+	}
+
+	func greet() {
+		print("Hello")
+	}
+}
+
+class Friend: Person {
+	override func greet() {
+		print("Hello friend!")
+	}
+}
+```
+
+The `:` is what defines `Friend` as based on `Person`
+
+The `override` keyword allows use to make changes originally implemented by the parent class
+
+Plain additions can also be made, if you were to define a new `func` in `Friend`
+
+```swift
+class Friend: Person {
+	func greet2() {
+		print("Hello other friend!")
+	}
+}
+```
+
+When using that class you could still use `greet()` to print `"Hello"` while also being able to use `greet2()` to print `"Hello other friend!"`
+
+### Adding Additional Properties
+
+If you wanted to store the age of your friends but not other people you would need an extra property added to just the friend class
+
+```swift
+class Person {
+	var name: String
+
+	init(name: String) {
+		self.name = name
+	}
+}
+
+class Friend: Person {
+	var age: Int
+
+	init(name: String, age: Int) {
+		self.age = age
+		super.init(name: name)
+	}
+}
+```
+
+The `super.init` allows use to maintain a connection with the parent class while still creating a new `init()`
+
+The `super.init(name: name)` line is just taking the passed in `name` value and initializing it with the parent class initializer, its kinda using two initializers
+
+**Note:** `@objc` is a thing that exists and comes before `class`, `func`, etc. It's just a tag that allows the operating system to call that function or makes all of a classes methods available to be called, Xcode should allows let you know when its needed.
+
+# Properties
+
+Properties are the variables and data assigned to a class. You can use `willSet` to execute right before a property is changed and you can use `didSet` to execute right after a property is changed.
+
+## willSet and didSet
+
+```swift
+struct Struct {
+	
+	//Properties
+
+	willSet {
+		//Content
+	}
+
+	didSet {
+		//Content
+	}
+}
+```
+Inside of `willSet` the value `newValue` can be used to represent the new value of the changed property, it requires no definition and can just be used.
+
+Inside of `didSet` the value `oldValue` can be used to represent the old value of the changed property, it requires no definition and can just be used.
+
+## Computed Properties
+
+While these might seem like functions with extra steps, they are really just used to store data like regular variables but makes it easy to do computations on preexisting properties.
+
+```swift
+struct Person {
+	var age: Int
+
+	var ageInDogYears: Int {
+		get {
+			return age * 7
+		}
+	}
+}
+```
+
+Setting a value for `age` like 7 and then printing `ageInDogYears` would return 49.
+
+**Note:** If you intend to use computed properties only for reading data (which is all we are doing in the example above) then the `get {}` is not required and can be removed. My guess is that the `get {}` exists because computed properties could update other properties?
+
+
+# Core Data
+
+Core Data is a framework for interacting with user data, it is not a database itself. 
+
+## Entity
+
+An entity is just a class, it is similar to a SQL table however it contains more information. Entities have attributes which hold data as specific types
+
+## Managed Objects
+
+The `NSManagedObject` is a class that represents any Core Data entity/object. These managed objects are associated with `NSEntityDescription` which provides metadata to the object such as the name of the entity the object is representing s as well as the names of its attributes and relationships
+
+These objects notify the applications of changes to objects such as deletions or saves
+
+## NSManagedObjectContext
+
+This is the context for an `NSManagedObject` and tracks changes such as adding, updating, and removing. **These changes are held in memory until the context is saved to a persistent store.**
+
+All `NSManagedObjects` have an associated context
+
+## NSPersistentContainer
+
+This is the data store, this container also dispenses object contexts used to save managed objects
+
+## NSFetchedResultController
+
+A controller used to manage the results of a Core Data fetch request and to display data to the user. The controller can do the following things:
+- Fetch only the necessary data rather than all of the data in a store at once
+- Notify of changes, can notify when the data for the associated object context changes
+- Cache data so it doesn't need to be fetched every time
+- Order data by section, separates data by a given attribute
+
+## Relationships
+
+Object to object (entity to entity) connections. 
+
+### To One connections 
+
+Relationship leads to one object (think tasks to a project, the task has one and only ever one project)
+
+### To Many Connections
+
+Relationship leads to multiple objects (think a project to many tasks, one project can have many underlying tasks)
+
+# Combine
+An API for processing values over time
+
+## Publishers
+## Operators
+## Subjects
